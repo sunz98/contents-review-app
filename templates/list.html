@@ -67,36 +67,17 @@
           type: "GET",
           url: "/review/stat",
           success: function (response) {
-            console.log(response["소설"]);
-            console.log(response["영화"]);
-            console.log(response["관람"]);
-            const review_stat = response.ttl_stat;
-            if (ttl_stat === 0) {
-              ttl_stat = "없음";
-            }
-            let book_stat = response["소설"];
-            if (book_stat === undefined) {
-              book_stat = "리뷰없음";
-            }
-            let movie_stat = response["영화"];
-            if (movie_stat === undefined) {
-              movie_stat = "리뷰없음";
-            }
-            let play_stat = response["관람"];
-            if (play_stat === undefined) {
-              play_stat = "리뷰없음";
-            }
+            const total = 0;
+            for (const type in response) {
+              const cnt = response[type][0];
+              const avg = response[type][1];
 
-            $("#average-ttl-div").html(`등록된 리뷰 : <b>${ttl_stat}</b>`);
-            $("#book-stat-div").html(
-              `<i class="bi bi-book"></i> 소설 : ${book_stat}`
-            );
-            $("#movie-stat-div").html(
-              `<i class="bi bi-film"></i> 영화 : ${movie_stat}`
-            );
-            $("#play-stat-div").html(
-              `<i class="bi bi-ticket-perforated"></i> 관람 : ${play_stat}`
-            );
+              $("#contents-div").html(
+                ` ${reponse[type]} : ${cnt}개, 평균 : ${avg}점`
+              );
+              total += cnt;
+            }
+            $("#total-div").html(`등록된 리뷰 : <b>${total}</b>`);
           },
         });
       });
@@ -146,5 +127,9 @@
       </thead>
       <tbody id="data-table"></tbody>
     </table>
+
+    <div id="total-div"></div>
+    <br />
+    <li id="contents-div"></li>
   </body>
 </html>

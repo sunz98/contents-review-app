@@ -63,7 +63,7 @@ def update_review():
     return "OK"
 
 
-@app.rout("/contents/stat", methods=["GET"])
+@app.route("/contents/stat", methods=["GET"])
 def get_review_score():
     sql = "SELECT type, count(1), round(avg(grade), 1) from review group by type"
     cursor.execute(sql)
