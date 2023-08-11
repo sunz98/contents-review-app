@@ -62,11 +62,48 @@
             renderData(response);
           },
         });
+
+        $.ajax({
+          type: "GET",
+          url: "/review/stat",
+          success: function (response) {
+            console.log(response["소설"]);
+            console.log(response["영화"]);
+            console.log(response["관람"]);
+            const review_stat = response.ttl_stat;
+            if (ttl_stat === 0) {
+              ttl_stat = "없음";
+            }
+            let book_stat = response["소설"];
+            if (book_stat === undefined) {
+              book_stat = "리뷰없음";
+            }
+            let movie_stat = response["영화"];
+            if (movie_stat === undefined) {
+              movie_stat = "리뷰없음";
+            }
+            let play_stat = response["관람"];
+            if (play_stat === undefined) {
+              play_stat = "리뷰없음";
+            }
+
+            $("#average-ttl-div").html(`등록된 리뷰 : <b>${ttl_stat}</b>`);
+            $("#book-stat-div").html(
+              `<i class="bi bi-book"></i> 소설 : ${book_stat}`
+            );
+            $("#movie-stat-div").html(
+              `<i class="bi bi-film"></i> 영화 : ${movie_stat}`
+            );
+            $("#play-stat-div").html(
+              `<i class="bi bi-ticket-perforated"></i> 관람 : ${play_stat}`
+            );
+          },
+        });
       });
     </script>
   </head>
 
-  <body>
+  <body class="pt-5">
     <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
       <!-- navbar-brand의 content 변경 -->
       <a class="navbar-brand" href="#">문화 컨텐츠 별점</a>
@@ -94,6 +131,8 @@
         </ul>
       </div>
     </nav>
+
+    <div id="avg_score"></div>
 
     <table class="table">
       <thead>

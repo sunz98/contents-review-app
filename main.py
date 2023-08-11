@@ -63,5 +63,21 @@ def update_review():
     return "OK"
 
 
+@app.rout("/contents/stat", methods=["GET"])
+def get_review_score():
+    sql = "SELECT type, count(1), round(avg(grade), 1) from review group by type"
+    cursor.execute(sql)
+    res = cursor.fetchall()
+
+    dict = {}
+    for group in res:
+        r_type = group[0]
+        cnt_type = group[1]
+        avg_type = group[2]
+        dict[r_type] = [cnt_type, avg_type]
+
+    return jsonify(dict)
+
+
 if __name__ == '__main__':
     app.run(debug=True)
